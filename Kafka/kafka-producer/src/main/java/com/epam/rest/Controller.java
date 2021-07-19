@@ -11,7 +11,7 @@ public class Controller {
     public String sendToKafka(@RequestParam("class") Integer clazz, @RequestParam("method") Integer method) {
         BasicProducer basicProducer = BasicProducer.getInstance();
         basicProducer.sendToKafka(clazz > 4 ? 3 : clazz , method > 4 ? 3 : method);
-        return "{ \"status\": \"200\", \"message\":\"" + method + "\"}";
+        return "{ \"status\": \"200\", \"message\":\"class: " + clazz + " method: " + method + "\"}";
     }
 
 }

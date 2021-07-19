@@ -1,6 +1,6 @@
 package com.epam.stub;
 
-public class Class2 {
+public class Class1 {
 
     private boolean b;
 
@@ -27,4 +27,5 @@ public class Class2 {
             System.out.println("Second if " + this.getClass() + " " + new RuntimeException().getStackTrace()[0].getMethodName());
         }
     }
+
 }

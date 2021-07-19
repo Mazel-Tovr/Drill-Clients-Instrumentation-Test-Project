@@ -86,6 +86,7 @@ public class BasicConsumeLoop<K extends Serializable, V extends Serializable> im
                                 default:
                                     System.out.println("IDK");
                             }
+                            break;
                         case 2:
                             switch (value) {
                                 case 1:
@@ -100,6 +101,7 @@ public class BasicConsumeLoop<K extends Serializable, V extends Serializable> im
                                 default:
                                     System.out.println("IDK");
                             }
+                            break;
                         case 3:
                             switch (value) {
                                 case 1:
@@ -119,8 +121,6 @@ public class BasicConsumeLoop<K extends Serializable, V extends Serializable> im
                             System.out.println("IDKX2");
 
                     }
-
-
                 }
             }
         } catch (WakeupException e) {

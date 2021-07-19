@@ -1,2 +1,2 @@
-rootProject.name = "cadence-consumer"
+rootProject.name = "com.epam.cadence-consumer"
 
