@@ -1,12 +1,10 @@
-package com.epam.cadence;
+package com.epam.cadence.async;
 
-import com.epam.stub.*;
+import com.epam.asyncstub.*;
 
-public class InvokerImpl implements Invoker {
-
+public class AsyncActivityImpl implements AsyncActivity {
     @Override
-    public void invoke(Integer clazz, Integer method) {
-        //method to invoke
+    public String invokeAsyncActivity(Integer clazz, Integer method) {
         switch (clazz) {
             case 1:
                 switch (method) {
@@ -56,5 +54,6 @@ public class InvokerImpl implements Invoker {
             default:
                 System.out.println("do nothing");
         }
+        return "Async invoke class:" + clazz + " method:" + method;
     }
 }

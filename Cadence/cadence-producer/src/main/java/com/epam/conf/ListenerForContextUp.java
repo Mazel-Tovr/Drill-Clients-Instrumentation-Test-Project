@@ -1,10 +1,7 @@
 package com.epam.conf;
 
-import com.epam.cadence.*;
 import com.uber.cadence.*;
-import com.uber.cadence.client.*;
 import com.uber.cadence.serviceclient.*;
-import com.uber.cadence.worker.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.*;
 import org.springframework.context.event.*;
