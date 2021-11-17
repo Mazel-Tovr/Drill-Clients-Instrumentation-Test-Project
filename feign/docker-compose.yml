@@ -2,20 +2,20 @@ version: "2"
 
 services:
 
-  kafka-producer:
+  feig-consumer:
     image: drill4j/feign-consumer:0.1.0
     ports:
       - 8080:8080
     volumes:
       - ./distr:/data
     environment:
-      - JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${adminUrl},agentId=feign-producer,groupId=feign,buildVersion=0.1.0,logLevel=INFO,${additionalParams} ${JAVA_TOOL_OPTIONS_PARAMS_PODUCER}
+      - JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${adminUrl},agentId=feign-consumer,groupId=feign,buildVersion=0.1.0,logLevel=INFO,${additionalParams} ${JAVA_TOOL_OPTIONS_PARAMS_CONSUMER}
 
-  kafka-consumer:
+  feig-producer:
     image: drill4j/feign-produce:0.1.0
     ports:
       - 8081:8080
     volumes:
       - ./distr:/data
     environment:
-      - JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${adminUrl},agentId=feign-consumer,groupId=feign,buildVersion=0.1.0,${additionalParams} ${JAVA_TOOL_OPTIONS_PARAMS_CONSUMER}
+      - JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${adminUrl},agentId=feign-producer,groupId=feign,buildVersion=0.1.0,${additionalParams} ${JAVA_TOOL_OPTIONS_PARAMS_PRODUCER}

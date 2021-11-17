@@ -1,6 +1,5 @@
 package com.epam.cadence.sync;
 
-import com.epam.*;
 import com.uber.cadence.workflow.*;
 
 public interface Invoker {

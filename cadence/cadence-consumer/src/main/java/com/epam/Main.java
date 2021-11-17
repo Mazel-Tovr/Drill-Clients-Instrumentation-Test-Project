@@ -12,10 +12,18 @@ public class Main {
     public final static String asyncTask = "HelloActivityAsync";
 
     public static void main(String[] args) {
-
+        System.out.println("Cadence-consumer started");
+        String host = System.getProperty("cadence.host");
+        String port = System.getProperty("cadence.port");
+        host = host == null ? "cadence" : host;
+        port = port == null ? "7933" : port;
+        System.out.println("Cadence Host " + host + " Port " + port);
         WorkflowClient workflowClient =
                 WorkflowClient.newInstance(
-                        new WorkflowServiceTChannel(ClientOptions.newBuilder().build()),
+                        new WorkflowServiceTChannel(ClientOptions.newBuilder()
+                                .setHost(host)
+                                .setPort(Integer.parseInt(port))
+                                .build()),
                         WorkflowClientOptions.newBuilder().setDomain(domain).setInterceptors(new WorkflowClientInterceptorBase()).build());
         WorkerFactory factory = WorkerFactory.newInstance(workflowClient);
         Worker worker = factory.newWorker(task);

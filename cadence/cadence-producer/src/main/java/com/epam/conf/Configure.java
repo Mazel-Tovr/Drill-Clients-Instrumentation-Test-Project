@@ -14,7 +14,15 @@ public class Configure {
 
     @Bean
     public WorkflowClient workflowClient(@Value("${domain}") String domain) {
-        ClientOptions options = ClientOptions.newBuilder().build();
+        String host = System.getProperty("cadence.host");
+        String port = System.getProperty("cadence.port");
+        host = host == null ? "cadence" : host;
+        port = port == null ? "7933" : port;
+        System.out.println("Cadence Host " + host + " Port " + port);
+        ClientOptions options = ClientOptions.newBuilder()
+                .setHost(host)
+                .setPort(Integer.parseInt(port))
+                .build();
         return WorkflowClient.newInstance(
                 new WorkflowServiceTChannel(options),
                 WorkflowClientOptions.newBuilder().setDomain(domain).build());
@@ -29,9 +37,7 @@ public class Configure {
     @Bean
     @Scope(value = "prototype", proxyMode = ScopedProxyMode.INTERFACES)
     public InvokerAsync invokerAsync(@Autowired WorkflowClient workflowClient, @Value("${task.list.async}") String task) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("31","3122313");
-        return workflowClient.newWorkflowStub(InvokerAsync.class,new WorkflowOptions.Builder().setMemo(map).build());
+        return workflowClient.newWorkflowStub(InvokerAsync.class);
     }
 
 }

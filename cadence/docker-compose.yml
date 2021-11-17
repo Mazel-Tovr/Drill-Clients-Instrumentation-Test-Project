@@ -53,3 +53,21 @@ services:
 #      - prometheus
     ports:
       - '3000:3000'
+
+  # Add depends on cadence
+  cadence-producer:
+    image: drill4j/cadence-producer:0.1.0
+    ports:
+      - 8080:8080
+    volumes:
+      - ./distr:/data
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${adminUrl},agentId=cadence-producer,groupId=cadence,buildVersion=0.1.0,logLevel=INFO,${additionalParams} ${JAVA_TOOL_OPTIONS_PARAMS_PODUCER}
+
+  # Add depends on cadence
+  cadence-consumer:
+      image: drill4j/cadence-consumer:0.1.0
+      volumes:
+        - ./distr:/data
+      environment:
+        - JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${adminUrl},agentId=cadence-consumer,groupId=cadence,buildVersion=0.1.0,${additionalParams} ${JAVA_TOOL_OPTIONS_PARAMS_CONSUMER}

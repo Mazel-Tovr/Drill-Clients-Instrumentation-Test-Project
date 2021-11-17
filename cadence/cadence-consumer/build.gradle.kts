@@ -1,6 +1,7 @@
 plugins {
     java
     id("com.epam.drill.agent.runner.app") version "0.2.2"
+    id("com.google.cloud.tools.jib")
 }
 
 group = "com.epam"
@@ -28,12 +29,37 @@ drill {
     adminPort = 8090
     logLevel = com.epam.drill.agent.runner.LogLevels.TRACE
     jvmArgs = setOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005")
+    jvmArgs = jvmArgs + "-Ddrill.http.hook.enabled=false"
     agentPath = File("D:\\Github\\Drill\\java-agent\\build\\install\\mingwX64\\drill_agent.dll")
     runtimePath = File("D:\\Github\\Drill\\java-agent\\build\\install\\mingwX64\\")
-    additionalParams = mapOf("isAsyncApp" to "true")
+    additionalParams = mapOf("isCadence" to "true", "isAsyncApp" to "true")
 }
+
+val appMainClassName by extra("com.epam.Main")
+
+val appJvmArgs = listOf(
+    "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5007",
+    "-Xms128m",
+    "-XX:+UseG1GC",
+    "-XX:MaxGCPauseMillis=100"
+)
+
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
-//rootProject.name = "com.epam.cadence-consumer"
+
+jib {
+    from {
+        image = "openjdk:8"
+    }
+    to {
+        image = "drill4j/cadence-consumer"
+        tags = setOf("0.1.0")
+    }
+    container {
+        ports = listOf("5007")
+        mainClass = appMainClassName
+        jvmFlags = appJvmArgs + "-XX:-UseContainerSupport"
+    }
+}

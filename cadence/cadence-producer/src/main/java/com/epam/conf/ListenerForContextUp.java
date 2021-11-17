@@ -14,7 +14,16 @@ public class ListenerForContextUp implements ApplicationListener<ContextRefreshe
     private String domain;
 
     public void registerDomain() {
-        IWorkflowService cadenceService = new WorkflowServiceTChannel(ClientOptions.defaultInstance());
+        String host = System.getProperty("cadence.host");
+        String port = System.getProperty("cadence.port");
+        host = host == null ? "cadence" : host;
+        port = port == null ? "7933" : port;
+        System.out.println("Cadence Host " + host + " Port " + port);
+        IWorkflowService cadenceService = new WorkflowServiceTChannel(ClientOptions.newBuilder()
+                .setHost(host)
+                .setPort(Integer.parseInt(port))
+                .build()
+        );
         RegisterDomainRequest request = new RegisterDomainRequest();
         request.setDescription("Java Samples");
         request.setEmitMetric(false);
