@@ -54,6 +54,7 @@ drill {
     adminHost = "localhost"
     adminPort = 8090
     logLevel = com.epam.drill.agent.runner.LogLevels.TRACE
+   // logFile = rootProject.buildDir.resolve("drill-log.log")
     agentPath = File("D:\\Github\\Drill\\java-agent\\build\\install\\mingwX64\\drill_agent.dll")
     runtimePath = File("D:\\Github\\Drill\\java-agent\\build\\install\\mingwX64\\")
     jvmArgs = jvmArgs + "-Ddrill.http.hook.enabled=false"

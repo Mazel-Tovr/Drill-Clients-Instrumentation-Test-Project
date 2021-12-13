@@ -1,5 +1,6 @@
 package com.epam.rest;
 
+import com.epam.dto.*;
 import com.epam.feign.*;
 import com.epam.utli.*;
 import com.google.gson.*;
@@ -20,21 +21,15 @@ public class Controller {
     @GetMapping("/feign")
     public String sendToAnotherService(@RequestParam("controller") Integer controllerId) {
         System.out.println("Request with headers income: " + RequestHelper.getHeaderFromCurrentRequest());
-        String response;
-        switch (controllerId) {
-            case 1:
-                response = feignClient.firstController();
-                break;
-            case 2:
-                response = feignClient.secondController();
-                break;
-            case 3:
-                response = OK_NE_OK();
-                break;
-            default:
-                response = "Unknown service";
-        }
-        return "{ \"status\": \"200\", \"message\":\"controllerId\": \"" + controllerId + "\" \"response\": \"" + response + "\"}";
+        String response = switch (controllerId) { // Java 17 feature
+            case 1 -> feignClient.firstController();
+            case 2 -> feignClient.secondController();
+            default -> "Unknown service";
+        };
+        System.out.println("Sum : " + new SimpleDTO(1, 2).sum());
+        return """
+                { "status": "200", "message":"controllerId": "%s" "response": "%s"}
+                 """.formatted(controllerId, response); // Java 17 feature
     }
 
 
